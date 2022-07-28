@@ -1,0 +1,92 @@
+:root {
+    --fontFam: sans-serif;
+    --fontColor: white;
+}
+
+* {
+    font-family: var(--fontFam);
+    color: var(--fontColor);
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    background-color: black;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flexStart {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.flexStart * {
+    padding-left: 1rem;
+}
+.hidden {
+    visibility: hidden;
+    z-index: -1;
+}
+
+.blink {
+    transition-property: all;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+#startOverlay {
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#next {
+    position: absolute;
+    bottom: 0;
+    right: 1rem;
+}
+
+#clickOverlay {
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#planetInfo {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 70%;
+    background-color: transparent;
+}
+
+#instructions {
+    width: 100%;
+    margin-left: 1rem;
+    background-color: transparent;
+    font-size: small;
+}
+
+footer {
+    position: absolute;
+    bottom: 0.3rem;
+    left: 0.3rem;
+    z-index: 1;
+}

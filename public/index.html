@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Solar System</title>
+        <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+        <div id="startOverlay" class="overlay flex">
+            <h1 class="blink">Start ⏎</h1>
+        </div>
+        <section id="planetInfo" class="hidden overlay flexStart"></section>
+        <h2 id="next" class="hidden blink">Next ⏎</h2>
+        <div id="clickOverlay" class="overlay hidden flex">
+            <h1>Click to Move around</h1>
+        </div>
+        <div id="instructions" class="overlay hidden">
+            <p>move: W | A | S | D</p>
+            <p>up | down: R | F</p>
+            <p>boost: shift</p>
+            <p>lock mouse: click</p>
+            <p>unlock mouse: esc</p>
+            <p>toggle orbit rotation: space</p>
+        </div>
+        <footer>© Edwin Harmuth, 2022</footer>
+        <script type="module" src="js/app.js"></script>
+    </body>
+</html>
