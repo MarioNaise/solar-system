@@ -7,8 +7,8 @@ app.get("/api/planets", (req, res) => {
     res.json(planetData);
 });
 
-app.listen(8080, () => {
-    console.log("I'm listening on PORT 8080");
+app.listen(process.env.PORT || 8080, () => {
+    console.log(`I'm listening on PORT ${process.env.PORT || 8080}`);
 });
 
 const planetData = {

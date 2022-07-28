@@ -110,15 +110,15 @@ const boost = speed * 10;
 let pointerLockOn = false;
 let orbitOn = false;
 
-// orbit
-const setOrbitControls = () => {
-    controls = new OrbitControls(camera, renderer.domElement);
-    controls.update();
-    orbitOn = true;
-    pointerLockOn = false;
-    controls.minDistance = planetData.sun.size * 2;
-    controls.maxDistance = planetData.sun.size * 10;
-};
+// // orbit
+// const setOrbitControls = () => {
+//     controls = new OrbitControls(camera, renderer.domElement);
+//     controls.update();
+//     orbitOn = true;
+//     pointerLockOn = false;
+//     controls.minDistance = planetData.sun.size * 2;
+//     controls.maxDistance = planetData.sun.size * 10;
+// };
 
 // pointerlock
 const setPointerLockControls = () => {
@@ -127,11 +127,11 @@ const setPointerLockControls = () => {
     orbitOn = false;
 };
 
-const deleteControls = () => {
-    controls = null;
-    pointerLockOn = false;
-    orbitOn = false;
-};
+// const deleteControls = () => {
+//     controls = null;
+//     pointerLockOn = false;
+//     orbitOn = false;
+// };
 const startMoving = (e) => {
     if (e.key == "w") {
         forwardMovement = speed;
