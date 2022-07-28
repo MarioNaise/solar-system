@@ -1,5 +1,5 @@
 :root {
-    --fontFam: sans-serif;
+    --fontFam: monospace;
     --fontColor: white;
 }
 
@@ -73,7 +73,7 @@ body {
     top: 0;
     right: 0;
     bottom: 0;
-    left: 70%;
+    left: 60%;
     background-color: transparent;
 }
 

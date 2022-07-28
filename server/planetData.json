@@ -1,0 +1,186 @@
+{
+    "sun": {
+        "name": "Sun",
+        "size": 5,
+        "day": 0.002,
+        "year": 0,
+        "positionX": 0,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is the Sun."
+        }
+    },
+    "mercury": {
+        "name": "Mercury",
+        "size": 0.5,
+        "day": 0.02,
+        "year": 0.005,
+        "positionX": 10,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Mercury."
+        }
+    },
+    "venus": {
+        "name": "Venus",
+        "size": 0.7,
+        "day": 0.03,
+        "year": 0.002,
+        "positionX": 20,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Venus."
+        }
+    },
+    "earth": {
+        "name": "Earth",
+        "size": 1.5,
+        "day": 0.01,
+        "year": 0.0025,
+        "positionX": 30,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Earth."
+        }
+    },
+    "moon": {
+        "name": "Moon",
+        "size": 0.2,
+        "day": 0.03,
+        "year": 0.02,
+        "positionX": 1.6,
+        "positionY": 0.5,
+        "positionZ": 2.5,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": true
+    },
+    "mars": {
+        "name": "Mars",
+        "size": 0.8,
+        "day": 0.05,
+        "year": 0.004,
+        "positionX": 40,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Mars."
+        }
+    },
+    "jupiter": {
+        "name": "Jupiter",
+        "size": 3,
+        "day": 0.02,
+        "year": 0.001,
+        "positionX": 50,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Jupiter."
+        }
+    },
+    "saturn": {
+        "name": "Saturn",
+        "size": 2,
+        "day": 0.03,
+        "year": 0.003,
+        "positionX": 60,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Saturn."
+        }
+    },
+    "uranus": {
+        "name": "Uranus",
+        "size": 2.5,
+        "day": 0.03,
+        "year": 0.001,
+        "positionX": 70,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Uranus."
+        }
+    },
+    "neptun": {
+        "name": "Neptun",
+        "size": 2,
+        "day": 0.03,
+        "year": 0.002,
+        "positionX": 80,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Neptun."
+        }
+    },
+    "pluto": {
+        "name": "Pluto",
+        "size": 0.6,
+        "day": 0.03,
+        "year": 0.0005,
+        "positionX": 150,
+        "positionY": 0,
+        "positionZ": 0,
+        "rotationX": 0,
+        "rotationY": 0,
+        "rotationZ": 0,
+        "rotateP": true,
+        "rotateO": false,
+        "description": {
+            "info": "This is Pluto."
+        }
+    }
+}
