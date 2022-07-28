@@ -195,8 +195,16 @@ document.addEventListener("keydown", startMoving);
 document.addEventListener("keyup", stopMoving);
 
 const updateInfo = (planet) => {
-    planetInfo.innerHTML = `<h1>Name: ${planet.name}</h1>
-                            <p>Description: ${planet.description.info}</p>`;
+    planetInfo.innerHTML = `<h1>${planet.name}</h1>
+                            <p>Description:<br> ${planet.description.info}</p>
+                            <p>Day:<br> ${planet.description.day || "-"}</p>
+                            <p>Year:<br> ${planet.description.year || "-"}</p>
+                            <p>Distance from sun:<br> ${
+                                planet.description["distance to sun"] || "-"
+                            }</p>
+                            <p>Diamter:<br> ${planet.description.diameter}</p>
+                            <p>Volume:<br> ${planet.description.volume}</p>
+                            <p>Mass:<br> ${planet.description.mass}</p>`;
 };
 
 // start with enter and switch planets afterwards
@@ -228,6 +236,7 @@ const nextPlanet = (e) => {
         clickOverlay.classList.remove("hidden");
         planetInfo.classList.add("hidden");
         document.addEventListener("keydown", toggleRotation);
+        return;
     }
     if (e.key == "Enter") {
         // new planet
