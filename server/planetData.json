@@ -37,7 +37,7 @@
             "diameter": "4,879 km",
             "volume": "6.083×1010 km3 / 0.056 Earths",
             "mass": "3.3011×1023 kg / 0.055 Earths",
-            "distance to sun": "46,000,000 to 70,000,000 km",
+            "distance to sun": "0.39 AU / 46,000,000 to 70,000,000 km",
             "day": "1,408 hours",
             "year": "88 days"
         }
@@ -45,7 +45,7 @@
     "venus": {
         "name": "Venus",
         "size": 0.7,
-        "day": 0.03,
+        "day": -0.03,
         "year": 0.002,
         "positionX": 20,
         "positionY": 0,
@@ -83,7 +83,7 @@
             "diameter": "12,756 km",
             "volume": "1.08321×1012 km3",
             "mass": "5.97237×1024 kg",
-            "distance to sun": "1 AU ≈ 1.496×108 km. / 8 min 19 s at light speed",
+            "distance to sun": "1 AU ≈ 149,598,000 km / 8 min 19 s at light speed",
             "day": "24 hours",
             "year": "365 days"
         }
@@ -91,7 +91,7 @@
     "moon": {
         "name": "Moon",
         "size": 0.2,
-        "day": 0.03,
+        "day": 0,
         "year": 0.02,
         "positionX": 1.6,
         "positionY": 0.5,
@@ -120,7 +120,7 @@
             "diameter": "6792 km",
             "volume": "1.63118×1011 km3 / 0.151 Earths",
             "mass": "6.4171×1023 kg / 0.107 Earths",
-            "distance to sun": "230,000,000 km",
+            "distance to sun": "1.38 AU to 1.66 AU / 230,000,000 km",
             "day": "25 hours",
             "year": "687 days"
         }
@@ -174,7 +174,7 @@
     "uranus": {
         "name": "Uranus",
         "size": 2.5,
-        "day": 0.03,
+        "day": -0.03,
         "year": 0.001,
         "positionX": 70,
         "positionY": 0,

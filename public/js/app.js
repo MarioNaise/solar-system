@@ -1,6 +1,6 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js";
 import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/PointerLockControls.js";
-import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js";
+// import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js";
 // import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js";
 
 /////////////////////////////////////
@@ -78,12 +78,18 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 const positionCam = (planet) => {
-    camera.position.x = planet.positionX;
-    camera.position.y = planet.size / 10;
+    camera.position.x = planet.positionX - planet.size;
+    camera.position.y = planet.size / 2;
     camera.position.z = planet.size * 2;
-    camera.rotation.x = 0;
-    camera.rotation.y = 0;
-    camera.rotation.z = 0;
+    camera.rotation.x = -0.1394530751;
+    camera.rotation.y = -0.70686165;
+    camera.rotation.z = -0.08780873;
+    // camera.position.x = planet.positionX - planet.size * 3;
+    // camera.position.y = 0;
+    // camera.position.z = planet.size * 2;
+    // camera.rotation.x = 0;
+    // camera.rotation.y = 0;
+    // camera.rotation.z = 0;
 };
 positionCam(planetData.sun);
 
@@ -113,7 +119,6 @@ let downwardsMovement = 0;
 const speed = 0.03;
 const boost = speed * 10;
 let pointerLockOn = false;
-let orbitOn = false;
 
 // // orbit
 // const setOrbitControls = () => {
@@ -130,13 +135,11 @@ const pointerlock = new PointerLockControls(camera, renderer.domElement);
 const setPointerLockControls = () => {
     controls = pointerlock;
     pointerLockOn = true;
-    orbitOn = false;
 };
 
 const deleteControls = () => {
     controls = null;
     pointerLockOn = false;
-    orbitOn = false;
 };
 const startMoving = (e) => {
     if (e.key == "w") {
@@ -232,27 +235,26 @@ const switchPlanet = (e) => {
         // new planet
         planet = planetArr[planetCounter];
         updateInfo(planet);
-
-        // console.log(planetCounter, planet.name);
-        camera.position.x = planet.positionX;
-        camera.position.y = planet.size / 10;
-        camera.position.z = planet.positionZ + planet.size * 2;
+        positionCam(planet);
     }
 };
 
-let start = false;
 let flightMode = false;
-const switchMode = (e) => {
-    if (e.key == "Enter" && !start) {
-        start = true;
+const firstEnter = (e) => {
+    if (e.key == "Enter") {
         startOverlay.classList.add("hidden");
         instructionsFirst.classList.remove("hidden");
         planetInfo.classList.remove("hidden");
         updateInfo(planetData.sun);
         document.addEventListener("keydown", switchPlanet);
-        return;
+        document.addEventListener("keydown", switchMode);
+        document.removeEventListener("keydown", firstEnter);
     }
-    if (e.key == "Enter" && start) {
+};
+document.addEventListener("keydown", firstEnter);
+
+const switchMode = (e) => {
+    if (e.key == "Enter") {
         if (!flightMode) {
             // switch to flightMode
             document.removeEventListener("keydown", switchPlanet);
@@ -280,7 +282,6 @@ const switchMode = (e) => {
         flightMode = !flightMode;
     }
 };
-document.addEventListener("keydown", switchMode);
 
 clickOverlay.addEventListener("click", () => {
     clickOverlay.classList.add("hidden");
@@ -305,11 +306,16 @@ const toggleRotation = (e) => {
     }
 };
 
-const turnOffRotation = (e) => {
+const turnOffRotation = () => {
     for (let i in planetArr) {
         planetArr[i].rotateO = false;
     }
 };
+// const turnOnRotation = () => {
+//     for (let i in planetArr) {
+//         planetArr[i].rotateO = true;
+//     }
+// };
 
 const setPlanets = () => {
     mercury.obj.rotation.x = 0;
@@ -420,7 +426,7 @@ const saturnRing = new THREE.Mesh(ringGeometry, ringMaterial);
 saturnRing.position.x = planetData.saturn.positionX;
 saturnRing.position.y = planetData.saturn.positionY;
 saturnRing.position.z = planetData.saturn.positionZ;
-saturnRing.rotation.x = Math.PI / 2;
+saturnRing.rotation.x = Math.PI / 2 + 0.01;
 sun.mesh.add(saturnRing);
 saturn.obj.add(saturnRing);
 
