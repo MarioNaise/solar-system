@@ -30,7 +30,7 @@ const planetArr = [
 //////  HTML  /////////
 ///////////////////////
 const startOverlay = document.getElementById("startOverlay");
-const next = document.getElementById("next");
+const instructionsFirst = document.getElementById("instructionsFirst");
 const clickOverlay = document.getElementById("clickOverlay");
 const planetInfo = document.getElementById("planetInfo");
 const instructions = document.getElementById("instructions");
@@ -42,7 +42,6 @@ const instructions = document.getElementById("instructions");
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-// renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 /////////////////////
@@ -78,23 +77,29 @@ const camera = new THREE.PerspectiveCamera(
     1000
 );
 
-camera.position.x = planetData.sun.positionX;
-camera.position.y = planetData.sun.size / 10;
-camera.position.z = planetData.sun.size * 2;
+const positionCam = (planet) => {
+    camera.position.x = planet.positionX;
+    camera.position.y = planet.size / 10;
+    camera.position.z = planet.size * 2;
+    camera.rotation.x = 0;
+    camera.rotation.y = 0;
+    camera.rotation.z = 0;
+};
+positionCam(planetData.sun);
 
-//see cam position and rotation
-// window.addEventListener("keydown", (e) => {
-//     if (e.key == ".") {
-//         console.log([
-//             camera.position.x,
-//             camera.position.y,
-//             camera.position.z,
-//             camera.rotation.x,
-//             camera.rotation.y,
-//             camera.rotation.z,
-//         ]);
-//     }
-// });
+// see cam position and rotation
+window.addEventListener("keydown", (e) => {
+    if (e.key == ".") {
+        console.log([
+            camera.position.x,
+            camera.position.y,
+            camera.position.z,
+            camera.rotation.x,
+            camera.rotation.y,
+            camera.rotation.z,
+        ]);
+    }
+});
 
 /////////////////////
 ///   CONTROLS   ////
@@ -121,17 +126,18 @@ let orbitOn = false;
 // };
 
 // pointerlock
+const pointerlock = new PointerLockControls(camera, renderer.domElement);
 const setPointerLockControls = () => {
-    controls = new PointerLockControls(camera, renderer.domElement);
+    controls = pointerlock;
     pointerLockOn = true;
     orbitOn = false;
 };
 
-// const deleteControls = () => {
-//     controls = null;
-//     pointerLockOn = false;
-//     orbitOn = false;
-// };
+const deleteControls = () => {
+    controls = null;
+    pointerLockOn = false;
+    orbitOn = false;
+};
 const startMoving = (e) => {
     if (e.key == "w") {
         forwardMovement = speed;
@@ -187,12 +193,12 @@ const moveCamera = (forwardMovement, sideMovement) => {
         camera.position.y -= downwardsMovement;
     }
 };
+document.addEventListener("keydown", startMoving);
+document.addEventListener("keyup", stopMoving);
 
 /////////////////////////////////////////////////
 ///////////////      EVENTS       ///////////////
 /////////////////////////////////////////////////
-document.addEventListener("keydown", startMoving);
-document.addEventListener("keyup", stopMoving);
 
 const updateInfo = (planet) => {
     planetInfo.innerHTML = `<h1>${planet.name}</h1>
@@ -208,37 +214,21 @@ const updateInfo = (planet) => {
 };
 
 // start with enter and switch planets afterwards
-let planetCounter = -1;
-const nextPlanet = (e) => {
-    /////////////// start (first enter)
-    if (planetCounter == -1) {
-        planetCounter++;
-        startOverlay.classList.add("hidden");
-        next.classList.remove("hidden");
-        planetInfo.classList.remove("hidden");
-        updateInfo(planetData.sun);
-        return;
-    }
-
+let planetCounter = 0;
+const switchPlanet = (e) => {
     //previous planet
     let planet = planetArr[planetCounter];
 
-    if (e.key == "Enter" && planetCounter < planetArr.length - 1) {
-        planet.rotateO = true;
+    if (e.key == "ArrowRight" && planetCounter < planetArr.length - 1) {
         planetCounter++;
-    } else if (e.key == "Enter" && planetCounter == planetArr.length - 1) {
-        planet.rotateO = true;
+    } else if (e.key == "ArrowRight" && planetCounter == planetArr.length - 1) {
         planetCounter = 0;
-
-        // switch to fly mode
-        document.removeEventListener("keydown", nextPlanet);
-        next.classList.add("hidden");
-        clickOverlay.classList.remove("hidden");
-        planetInfo.classList.add("hidden");
-        document.addEventListener("keydown", toggleRotation);
-        return;
+    } else if (e.key == "ArrowLeft" && planetCounter > 0) {
+        planetCounter--;
+    } else if (e.key == "ArrowLeft" && planetCounter == 0) {
+        planetCounter = planetArr.length - 1;
     }
-    if (e.key == "Enter") {
+    if (e.key == "ArrowRight" || e.key == "ArrowLeft") {
         // new planet
         planet = planetArr[planetCounter];
         updateInfo(planet);
@@ -249,12 +239,52 @@ const nextPlanet = (e) => {
         camera.position.z = planet.positionZ + planet.size * 2;
     }
 };
-document.addEventListener("keydown", nextPlanet);
+
+let start = false;
+let flightMode = false;
+const switchMode = (e) => {
+    if (e.key == "Enter" && !start) {
+        start = true;
+        startOverlay.classList.add("hidden");
+        instructionsFirst.classList.remove("hidden");
+        planetInfo.classList.remove("hidden");
+        updateInfo(planetData.sun);
+        document.addEventListener("keydown", switchPlanet);
+        return;
+    }
+    if (e.key == "Enter" && start) {
+        if (!flightMode) {
+            // switch to flightMode
+            document.removeEventListener("keydown", switchPlanet);
+            instructionsFirst.classList.add("hidden");
+            planetInfo.classList.add("hidden");
+            clickOverlay.classList.remove("hidden");
+            instructions.classList.remove("hidden");
+            document.addEventListener("keydown", toggleRotation);
+            setPointerLockControls();
+        } else {
+            controls.unlock();
+            deleteControls();
+            clickOverlay.classList.add("hidden");
+            planetInfo.classList.remove("hidden");
+            instructions.classList.add("hidden");
+            instructionsFirst.classList.remove("hidden");
+            document.addEventListener("keydown", switchPlanet);
+            document.removeEventListener("keydown", toggleRotation);
+            let planet = planetArr[planetCounter];
+            turnOffRotation();
+            setPlanets();
+            updateInfo(planet);
+            positionCam(planet);
+        }
+        flightMode = !flightMode;
+    }
+};
+document.addEventListener("keydown", switchMode);
 
 clickOverlay.addEventListener("click", () => {
     clickOverlay.classList.add("hidden");
     instructions.classList.remove("hidden");
-    setPointerLockControls();
     if (pointerLockOn) {
         controls.lock();
     }
@@ -273,6 +303,42 @@ const toggleRotation = (e) => {
         }
         e.preventDefault();
     }
+};
+
+const turnOffRotation = (e) => {
+    for (let i in planetArr) {
+        planetArr[i].rotateO = false;
+    }
+};
+
+const setPlanets = () => {
+    mercury.obj.rotation.x = 0;
+    mercury.obj.rotation.y = 0;
+    mercury.obj.rotation.z = 0;
+    venus.obj.rotation.x = 0;
+    venus.obj.rotation.y = 0;
+    venus.obj.rotation.z = 0;
+    earth.obj.rotation.x = 0;
+    earth.obj.rotation.y = 0;
+    earth.obj.rotation.z = 0;
+    mars.obj.rotation.x = 0;
+    mars.obj.rotation.y = 0;
+    mars.obj.rotation.z = 0;
+    jupiter.obj.rotation.x = 0;
+    jupiter.obj.rotation.y = 0;
+    jupiter.obj.rotation.z = 0;
+    saturn.obj.rotation.x = 0;
+    saturn.obj.rotation.y = 0;
+    saturn.obj.rotation.z = 0;
+    uranus.obj.rotation.x = 0;
+    uranus.obj.rotation.y = 0;
+    uranus.obj.rotation.z = 0;
+    neptun.obj.rotation.x = 0;
+    neptun.obj.rotation.y = 0;
+    neptun.obj.rotation.z = 0;
+    pluto.obj.rotation.x = 0;
+    pluto.obj.rotation.y = 0;
+    pluto.obj.rotation.z = 0;
 };
 
 //////////////////////

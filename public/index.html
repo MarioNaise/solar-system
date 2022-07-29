@@ -12,7 +12,11 @@
             <h1 class="blink">Start ⏎</h1>
         </div>
         <section id="planetInfo" class="hidden overlay flexStart"></section>
-        <h2 id="next" class="hidden blink">Continue ⏎</h2>
+        <div id="instructionsFirst" class="hidden overlay">
+            <p>next: right arrow</p>
+            <p>previous: left arrow</p>
+            <p>dicover: enter</p>
+        </div>
         <div id="clickOverlay" class="overlay hidden flex">
             <h1 class="blink">Click to Move around</h1>
         </div>
@@ -20,9 +24,10 @@
             <p>move: W | A | S | D</p>
             <p>up | down: R | F</p>
             <p>boost: shift</p>
-            <p>lock mouse: click</p>
             <p>unlock mouse: esc</p>
+            <p>lock mouse: click</p>
             <p>toggle orbit rotation: space</p>
+            <p>back to planet info: enter</p>
         </div>
         <footer>© Edwin Harmuth, 2022</footer>
         <script type="module" src="js/app.js"></script>

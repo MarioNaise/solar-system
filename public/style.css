@@ -59,8 +59,14 @@ body {
 
 #next {
     position: absolute;
-    bottom: 0;
-    right: 1rem;
+    top: 1rem;
+    left: 1rem;
+}
+
+#discover {
+    position: absolute;
+    top: 3rem;
+    left: 1rem;
 }
 
 #clickOverlay {
@@ -81,8 +87,9 @@ body {
     margin: 1rem 2rem;
 }
 
-#instructions {
-    width: 100%;
+#instructions,
+#instructionsFirst {
+    width: auto;
     margin-left: 1rem;
     background-color: transparent;
     font-size: small;
