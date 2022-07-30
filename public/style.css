@@ -95,30 +95,20 @@ body {
     font-size: small;
 }
 
-#switchModeButton {
-    padding: 1rem;
-    color: black;
-    position: absolute;
+button {
+    padding: 0.5rem;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 1rem;
     z-index: 1;
-    bottom: 0;
-    left: 40rem;
+    margin: 1rem;
 }
 
-#nextButton {
-    padding: 1rem;
+button:hover {
+    background-color: var(--fontColor);
     color: black;
-    position: absolute;
-    z-index: 1;
-    bottom: 0;
-    left: 30rem;
-}
-#previousButton {
-    padding: 1rem;
-    color: black;
-    position: absolute;
-    z-index: 1;
-    bottom: 0;
-    left: 17rem;
+    transition: all;
+    transition-duration: 0.5s;
 }
 
 footer {
