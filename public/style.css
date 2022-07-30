@@ -135,6 +135,9 @@ footer {
 }
 
 @media only screen and (max-width: 400px) {
+    #planetInfo {
+        left: 50%;
+    }
     button {
         display: block;
     }
