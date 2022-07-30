@@ -1,0 +1,11 @@
+Model Information:
+* title:	Joint scan (v2)
+* source:	https://sketchfab.com/3d-models/joint-scan-v2-c91b6896fa41446c96feb09ed0002a3a
+* author:	PreyK (https://sketchfab.com/krisitof)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Joint scan (v2)" (https://sketchfab.com/3d-models/joint-scan-v2-c91b6896fa41446c96feb09ed0002a3a) by PreyK (https://sketchfab.com/krisitof) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

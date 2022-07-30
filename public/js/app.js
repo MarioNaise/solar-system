@@ -1,7 +1,7 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js";
-import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/PointerLockControls.js";
 // import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js";
-// import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js";
+import { PointerLockControls } from "https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/PointerLockControls.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.118.1/examples/jsm/loaders/GLTFLoader.js";
 
 /////////////////////////////////////
 //////  GET DATA FROM SERVER   //////
@@ -60,8 +60,8 @@ scene.add(pointlight);
 ///  BACKGROUND  ////
 /////////////////////
 
-const loader = new THREE.CubeTextureLoader();
-const space = loader.load([
+const CTloader = new THREE.CubeTextureLoader();
+const space = CTloader.load([
     "./pictures/space/space_ft.png",
     "./pictures/space/space_bk.png",
     "./pictures/space/space_up.png",
@@ -89,28 +89,22 @@ const positionCam = (planet) => {
     camera.rotation.x = -0.1394530751;
     camera.rotation.y = -0.70686165;
     camera.rotation.z = -0.08780873;
-    // camera.position.x = planet.positionX - planet.size * 3;
-    // camera.position.y = 0;
-    // camera.position.z = planet.size * 2;
-    // camera.rotation.x = 0;
-    // camera.rotation.y = 0;
-    // camera.rotation.z = 0;
 };
 positionCam(planetData.sun);
 
 // see cam position and rotation
-window.addEventListener("keydown", (e) => {
-    if (e.key == ".") {
-        console.log([
-            camera.position.x,
-            camera.position.y,
-            camera.position.z,
-            camera.rotation.x,
-            camera.rotation.y,
-            camera.rotation.z,
-        ]);
-    }
-});
+// window.addEventListener("keydown", (e) => {
+//     if (e.key == ".") {
+//         console.log([
+//             camera.position.x,
+//             camera.position.y,
+//             camera.position.z,
+//             camera.rotation.x,
+//             camera.rotation.y,
+//             camera.rotation.z,
+//         ]);
+//     }
+// });
 
 /////////////////////
 ///   CONTROLS   ////
@@ -181,6 +175,8 @@ const stopMoving = (e) => {
     }
     if (e.key == "Shift") {
         forwardMovement = 0;
+        upwardsMovement = 0;
+        downwardsMovement = 0;
     }
     if (e.key == "r") {
         upwardsMovement = 0;
@@ -241,7 +237,7 @@ const nextPlanet = () => {
     }
     // new planet
     let planet = planetArr[planetCounter];
-    if (planet.name == "Pluto") {
+    if (planet.name == "Sun") {
         pressEnter.classList.remove("hidden");
     }
     updateInfo(planet);
@@ -277,7 +273,7 @@ const firstEnter = (e) => {
 document.addEventListener("keydown", firstEnter);
 startButton.addEventListener("click", startJourney);
 
-const switchMode = () => {
+const switchMode = (e) => {
     if (!discoveryMode) {
         // switch to discoveryMode
         document.removeEventListener("keydown", switchPlanet);
@@ -305,7 +301,10 @@ const switchMode = () => {
     discoveryMode = !discoveryMode;
 };
 
-switchModeButton.addEventListener("click", switchMode);
+switchModeButton.addEventListener("click", (e) => {
+    switchMode();
+    e.stopPropagation();
+});
 
 const switchModeEnter = (e) => {
     if (e.key == "Enter") {
@@ -328,6 +327,11 @@ document.addEventListener("click", () => {
     }
 });
 
+instructions.addEventListener("click", (e) => {
+    clickOverlay.click();
+    e.stopPropagation();
+});
+
 const toggleRotation = (e) => {
     if (e.key == " ") {
         for (let i in planetArr) {
@@ -347,36 +351,6 @@ const turnOffRotation = () => {
 //         planetArr[i].rotateO = true;
 //     }
 // };
-
-const setPlanets = () => {
-    mercury.obj.rotation.x = 0;
-    mercury.obj.rotation.y = 0;
-    mercury.obj.rotation.z = 0;
-    venus.obj.rotation.x = 0;
-    venus.obj.rotation.y = 0;
-    venus.obj.rotation.z = 0;
-    earth.obj.rotation.x = 0;
-    earth.obj.rotation.y = 0;
-    earth.obj.rotation.z = 0;
-    mars.obj.rotation.x = 0;
-    mars.obj.rotation.y = 0;
-    mars.obj.rotation.z = 0;
-    jupiter.obj.rotation.x = 0;
-    jupiter.obj.rotation.y = 0;
-    jupiter.obj.rotation.z = 0;
-    saturn.obj.rotation.x = 0;
-    saturn.obj.rotation.y = 0;
-    saturn.obj.rotation.z = 0;
-    uranus.obj.rotation.x = 0;
-    uranus.obj.rotation.y = 0;
-    uranus.obj.rotation.z = 0;
-    neptun.obj.rotation.x = 0;
-    neptun.obj.rotation.y = 0;
-    neptun.obj.rotation.z = 0;
-    pluto.obj.rotation.x = 0;
-    pluto.obj.rotation.y = 0;
-    pluto.obj.rotation.z = 0;
-};
 
 //////////////////////
 ////   PLANETS    ////
@@ -433,14 +407,6 @@ const pluto = createPlanet(planetData.pluto);
 // moon
 earth.mesh.add(moon.obj);
 
-// iss
-const iss = createPlanet({
-    name: "ISS",
-    size: 0.008,
-    positionZ: planetData.earth.size + 0.1,
-});
-earth.mesh.add(iss.obj);
-
 // saturn ring
 const ringGeometry = new THREE.RingGeometry(2.2, 3.5, 50, 50);
 const ringTexture = new THREE.TextureLoader().load(
@@ -461,6 +427,61 @@ saturnRing.rotation.x = Math.PI / 2 + 0.01;
 sun.mesh.add(saturnRing);
 saturn.obj.add(saturnRing);
 
+const setPlanets = () => {
+    mercury.obj.rotation.x = 0;
+    mercury.obj.rotation.y = 0;
+    mercury.obj.rotation.z = 0;
+    venus.obj.rotation.x = 0;
+    venus.obj.rotation.y = 0;
+    venus.obj.rotation.z = 0;
+    earth.obj.rotation.x = 0;
+    earth.obj.rotation.y = 0;
+    earth.obj.rotation.z = 0;
+    mars.obj.rotation.x = 0;
+    mars.obj.rotation.y = 0;
+    mars.obj.rotation.z = 0;
+    jupiter.obj.rotation.x = 0;
+    jupiter.obj.rotation.y = 0;
+    jupiter.obj.rotation.z = 0;
+    saturn.obj.rotation.x = 0;
+    saturn.obj.rotation.y = 0;
+    saturn.obj.rotation.z = 0;
+    uranus.obj.rotation.x = 0;
+    uranus.obj.rotation.y = 0;
+    uranus.obj.rotation.z = 0;
+    neptun.obj.rotation.x = 0;
+    neptun.obj.rotation.y = 0;
+    neptun.obj.rotation.z = 0;
+    pluto.obj.rotation.x = 0;
+    pluto.obj.rotation.y = 0;
+    pluto.obj.rotation.z = 0;
+};
+
+/////////////////////
+///    GLTFS     ////
+/////////////////////
+const gloader = new GLTFLoader();
+// gloader.load("./models/rocket/scene.gltf", (gltf) => {
+//     scene.add(gltf.scene);
+//     gltf.scene.scale.set(0.1, 0.1, 0.1);
+// });
+
+const eastereggObj = new THREE.Object3D();
+gloader.load("./models/easteregg/scene.gltf", (gltf) => {
+    gltf.scene.scale.set(0.05, 0.05, 0.05);
+    eastereggObj.add(gltf.scene);
+    pluto.mesh.add(eastereggObj);
+});
+
+const issObj = new THREE.Object3D();
+gloader.load("./models/iss/scene.gltf", (gltf) => {
+    gltf.scene.scale.set(0.01, 0.01, 0.01);
+    issObj.add(gltf.scene);
+    gltf.scene.position.x = planetData.earth.size + 0.02;
+    gltf.scene.rotation.z = 1.7;
+    earth.mesh.add(issObj);
+});
+
 /////////////////
 ///  ANIMATE ////
 /////////////////
@@ -476,7 +497,6 @@ function animate() {
     );
     venus.mesh.rotateY((planetData.venus.rotateP && planetData.venus.day) || 0);
     earth.mesh.rotateY((planetData.earth.rotateP && planetData.earth.day) || 0);
-    moon.mesh.rotateY(planetData.moon.day);
     mars.mesh.rotateY((planetData.mars.rotateP && planetData.mars.day) || 0);
     jupiter.mesh.rotateY(
         (planetData.jupiter.rotateP && planetData.jupiter.day) || 0
@@ -500,8 +520,8 @@ function animate() {
     venus.obj.rotateY((planetData.venus.rotateO && planetData.venus.year) || 0);
     earth.obj.rotateY((planetData.earth.rotateO && planetData.earth.year) || 0);
     moon.obj.rotateY((planetData.moon.rotateO && planetData.moon.year) || 0);
-    iss.obj.rotateY(0.002);
-    iss.obj.rotateX(0.02);
+    issObj.rotateY(0.04);
+    issObj.rotateZ(0.005);
     mars.obj.rotateY((planetData.mars.rotateO && planetData.mars.year) || 0);
     jupiter.obj.rotateY(
         (planetData.jupiter.rotateO && planetData.jupiter.year) || 0
@@ -517,6 +537,8 @@ function animate() {
         (planetData.neptun.rotateO && planetData.neptun.year) || 0
     );
     pluto.obj.rotateY((planetData.pluto.rotateO && planetData.pluto.year) || 0);
+    eastereggObj.rotateY(0.01);
+    eastereggObj.rotateZ(0.005);
 
     ///////////////////// movement
     moveCamera(forwardMovement, sideMovement);

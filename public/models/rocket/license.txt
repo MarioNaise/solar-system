@@ -1,0 +1,11 @@
+Model Information:
+* title:	Rocket
+* source:	https://sketchfab.com/3d-models/rocket-ffedf6c2e1de40bcaef5c57301ca94fd
+* author:	Constantine Tvalashvili (https://sketchfab.com/marooned3d)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Rocket" (https://sketchfab.com/3d-models/rocket-ffedf6c2e1de40bcaef5c57301ca94fd) by Constantine Tvalashvili (https://sketchfab.com/marooned3d) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
