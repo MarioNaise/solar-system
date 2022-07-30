@@ -9,13 +9,12 @@
     </head>
     <body>
         <div id="startOverlay" class="overlay flex">
-            <h1 class="blink">Start ⏎</h1>
+            <h1 id="startButton" class="blink">Start ⏎</h1>
         </div>
         <section id="planetInfo" class="hidden overlay flexStart"></section>
         <div id="instructionsFirst" class="hidden overlay">
-            <p>previous: left arrow</p>
-            <p>next: right arrow</p>
-            <p>dicover: enter</p>
+            <p>previous | next: left | right arrow</p>
+            <p>discovery mode: enter</p>
         </div>
         <div id="clickOverlay" class="overlay hidden flex">
             <h1 class="blink">Click to Move around</h1>
@@ -29,6 +28,10 @@
             <p>toggle orbit rotation: space</p>
             <p>back to planet info: enter</p>
         </div>
+        <button id="switchModeButton">Switch to other mode</button>
+        <button id="previousButton">previous planet</button>
+        <button id="nextButton">next planet</button>
+
         <footer>© Edwin Harmuth, 2022</footer>
         <script type="module" src="js/app.js"></script>
     </body>

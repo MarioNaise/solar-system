@@ -34,6 +34,10 @@ const instructionsFirst = document.getElementById("instructionsFirst");
 const clickOverlay = document.getElementById("clickOverlay");
 const planetInfo = document.getElementById("planetInfo");
 const instructions = document.getElementById("instructions");
+const startButton = document.getElementById("startButton");
+const switchModeButton = document.getElementById("switchModeButton");
+const previousButton = document.getElementById("previousButton");
+const nextButton = document.getElementById("nextButton");
 
 /////////////
 /// BASICS //
@@ -238,48 +242,93 @@ const switchPlanet = (e) => {
         positionCam(planet);
     }
 };
+const previousPlanet = () => {
+    // previous planet
+    let planet = planetArr[planetCounter];
 
-let flightMode = false;
+    if (planetCounter > 0) {
+        planetCounter--;
+    } else if (planetCounter == 0) {
+        planetCounter = planetArr.length - 1;
+    }
+    // new planet
+    planet = planetArr[planetCounter];
+    updateInfo(planet);
+    positionCam(planet);
+};
+const nextPlanet = () => {
+    //previous planet
+    let planet = planetArr[planetCounter];
+
+    if (planetCounter < planetArr.length - 1) {
+        planetCounter++;
+    } else if (planetCounter == planetArr.length - 1) {
+        planetCounter = 0;
+    }
+    // new planet
+    planet = planetArr[planetCounter];
+    updateInfo(planet);
+    positionCam(planet);
+};
+
+let discoveryMode = false;
+const startJourney = () => {
+    startOverlay.classList.add("hidden");
+    instructionsFirst.classList.remove("hidden");
+    planetInfo.classList.remove("hidden");
+    updateInfo(planetData.sun);
+    document.addEventListener("keydown", switchPlanet);
+    nextButton.addEventListener("click", nextPlanet);
+    previousButton.addEventListener("click", previousPlanet);
+    document.addEventListener("keydown", switchModeEnter);
+    switchModeButton.addEventListener("click", switchMode);
+    document.removeEventListener("keydown", firstEnter);
+    startButton.removeEventListener("click", startJourney);
+};
 const firstEnter = (e) => {
     if (e.key == "Enter") {
-        startOverlay.classList.add("hidden");
-        instructionsFirst.classList.remove("hidden");
-        planetInfo.classList.remove("hidden");
-        updateInfo(planetData.sun);
-        document.addEventListener("keydown", switchPlanet);
-        document.addEventListener("keydown", switchMode);
-        document.removeEventListener("keydown", firstEnter);
+        startJourney();
     }
 };
 document.addEventListener("keydown", firstEnter);
+startButton.addEventListener("click", startJourney);
 
 const switchMode = (e) => {
+    if (!discoveryMode) {
+        // switch to discoveryMode
+        document.removeEventListener("keydown", switchPlanet);
+        previousButton.removeEventListener("click", previousPlanet);
+        nextButton.removeEventListener("click", nextPlanet);
+        instructionsFirst.classList.add("hidden");
+        planetInfo.classList.add("hidden");
+        clickOverlay.classList.remove("hidden");
+        instructions.classList.remove("hidden");
+        document.addEventListener("keydown", toggleRotation);
+        setPointerLockControls();
+    } else {
+        controls.unlock();
+        deleteControls();
+        clickOverlay.classList.add("hidden");
+        planetInfo.classList.remove("hidden");
+        instructions.classList.add("hidden");
+        instructionsFirst.classList.remove("hidden");
+        document.addEventListener("keydown", switchPlanet);
+        nextButton.addEventListener("click", nextPlanet);
+        previousButton.addEventListener("click", previousPlanet);
+        document.removeEventListener("keydown", toggleRotation);
+        let planet = planetArr[planetCounter];
+        turnOffRotation();
+        setPlanets();
+        updateInfo(planet);
+        positionCam(planet);
+    }
+    discoveryMode = !discoveryMode;
+    e.stopPropagation();
+};
+
+const switchModeEnter = (e) => {
     if (e.key == "Enter") {
-        if (!flightMode) {
-            // switch to flightMode
-            document.removeEventListener("keydown", switchPlanet);
-            instructionsFirst.classList.add("hidden");
-            planetInfo.classList.add("hidden");
-            clickOverlay.classList.remove("hidden");
-            instructions.classList.remove("hidden");
-            document.addEventListener("keydown", toggleRotation);
-            setPointerLockControls();
-        } else {
-            controls.unlock();
-            deleteControls();
-            clickOverlay.classList.add("hidden");
-            planetInfo.classList.remove("hidden");
-            instructions.classList.add("hidden");
-            instructionsFirst.classList.remove("hidden");
-            document.addEventListener("keydown", switchPlanet);
-            document.removeEventListener("keydown", toggleRotation);
-            let planet = planetArr[planetCounter];
-            turnOffRotation();
-            setPlanets();
-            updateInfo(planet);
-            positionCam(planet);
-        }
-        flightMode = !flightMode;
+        switchMode();
     }
 };
 
