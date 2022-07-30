@@ -37,6 +37,7 @@ const instructions = document.getElementById("instructions");
 const startButton = document.getElementById("startButton");
 const previousButton = document.getElementById("previousButton");
 const nextButton = document.getElementById("nextButton");
+const switchModeButton = document.getElementById("switchModeButton");
 
 /////////////
 /// BASICS //
@@ -179,9 +180,6 @@ const stopMoving = (e) => {
     }
     if (e.key == "Shift") {
         forwardMovement = 0;
-        sideMovement = 0;
-        upwardsMovement = 0;
-        downwardsMovement = 0;
     }
     if (e.key == "r") {
         upwardsMovement = 0;
@@ -302,6 +300,8 @@ const switchMode = () => {
     }
     discoveryMode = !discoveryMode;
 };
+
+switchModeButton.addEventListener("click", switchMode);
 
 const switchModeEnter = (e) => {
     if (e.key == "Enter") {

@@ -84,11 +84,12 @@ body {
 }
 
 #planetInfo * {
-    margin: 1rem 2rem;
+    margin: 0.5rem 1rem;
+    display: inline-block;
+    text-align: justify;
 }
 
-#instructions,
-#instructionsFirst {
+#instructions {
     width: auto;
     margin-left: 1rem;
     background-color: transparent;
@@ -109,6 +110,16 @@ button:hover {
     color: black;
     transition: all;
     transition-duration: 0.5s;
+    font-size: clamp(0.5rem, 5vw, 1rem);
+}
+
+button:focus {
+    outline: none;
+}
+
+#switchModeButton {
+    font-size: small;
+    margin: 0;
 }
 
 footer {
@@ -117,4 +128,11 @@ footer {
     bottom: 0.3rem;
     left: 0.3rem;
     z-index: 1;
+}
+
+@media only screen and (max-width: 400px) {
+    button {
+        display: block;
+        font-size: small;
+    }
 }
