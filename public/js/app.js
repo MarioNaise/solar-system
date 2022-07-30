@@ -38,6 +38,7 @@ const startButton = document.getElementById("startButton");
 const previousButton = document.getElementById("previousButton");
 const nextButton = document.getElementById("nextButton");
 const switchModeButton = document.getElementById("switchModeButton");
+const pressEnter = document.getElementById("pressEnter");
 
 /////////////
 /// BASICS //
@@ -240,6 +241,9 @@ const nextPlanet = () => {
     }
     // new planet
     let planet = planetArr[planetCounter];
+    if (planet.name == "Pluto") {
+        pressEnter.classList.remove("hidden");
+    }
     updateInfo(planet);
     positionCam(planet);
 };
