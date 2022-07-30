@@ -97,6 +97,7 @@ body {
 }
 
 button {
+    text-align: center;
     padding: 0.5rem;
     background-color: transparent;
     border: 2px solid white;
@@ -124,6 +125,9 @@ button:focus {
 #switchModeButton {
     font-size: small;
     margin: 0;
+}
+#buttons {
+    background-color: transparent;
 }
 
 footer {
