@@ -466,13 +466,6 @@ const gloader = new GLTFLoader();
 //     gltf.scene.scale.set(0.1, 0.1, 0.1);
 // });
 
-const eastereggObj = new THREE.Object3D();
-gloader.load("./models/easteregg/scene.gltf", (gltf) => {
-    gltf.scene.scale.set(0.05, 0.05, 0.05);
-    eastereggObj.add(gltf.scene);
-    pluto.mesh.add(eastereggObj);
-});
-
 const issObj = new THREE.Object3D();
 gloader.load("./models/iss/scene.gltf", (gltf) => {
     gltf.scene.scale.set(0.01, 0.01, 0.01);
@@ -481,6 +474,14 @@ gloader.load("./models/iss/scene.gltf", (gltf) => {
     gltf.scene.rotation.z = 1.7;
     earth.mesh.add(issObj);
 });
+
+const eastereggObj = new THREE.Object3D();
+gloader.load("./models/easteregg/scene.gltf", (gltf) => {
+    gltf.scene.scale.set(0.05, 0.05, 0.05);
+    eastereggObj.add(gltf.scene);
+    pluto.mesh.add(eastereggObj);
+});
+eastereggObj.rotateZ(Math.PI / 4);
 
 /////////////////
 ///  ANIMATE ////
@@ -538,7 +539,6 @@ function animate() {
     );
     pluto.obj.rotateY((planetData.pluto.rotateO && planetData.pluto.year) || 0);
     eastereggObj.rotateY(0.01);
-    eastereggObj.rotateZ(0.005);
 
     ///////////////////// movement
     moveCamera(forwardMovement, sideMovement);

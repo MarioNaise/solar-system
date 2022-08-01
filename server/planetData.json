@@ -2,7 +2,7 @@
     "sun": {
         "name": "Sun",
         "size": 5,
-        "day": 0.002,
+        "day": 0.001,
         "year": 0,
         "positionX": 0,
         "positionY": 0,
@@ -189,7 +189,7 @@
             "diameter": "51,118 km",
             "volume": "6.833×1013 km3 / 63.086 Earths",
             "mass": "(8.6810±0.0013)×1025 kg /  14,536 Earths",
-            "distance to sun": "29.8 AU to 30.4 AU. / 4,503,443,661 km",
+            "distance to sun": "18.4 AU to 19.2 AU / 2,876,679,082 km",
             "day": "17 hours",
             "year": "30,687 days"
         }

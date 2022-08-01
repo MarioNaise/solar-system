@@ -80,7 +80,7 @@ body {
     right: 0;
     bottom: 0;
     left: 60%;
-    overflow: scroll;
+    overflow: auto;
 }
 
 #planetInfo * {
@@ -137,7 +137,7 @@ footer {
     z-index: 1;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 480px) {
     #planetInfo {
         left: 50%;
     }
