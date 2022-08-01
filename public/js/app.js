@@ -45,7 +45,7 @@ document.body.appendChild(renderer.domElement);
 ///    LIGHT     ////
 /////////////////////
 
-const pointlight = new THREE.PointLight(0xffffff, 2, 300);
+const pointlight = new THREE.PointLight(0xdbc3b8, 2, 300);
 scene.add(pointlight);
 
 /////////////////////
@@ -286,7 +286,7 @@ const switchMode = (e) => {
         document.addEventListener("keydown", switchPlanet);
         document.removeEventListener("keydown", toggleRotation);
         let planet = itemsDescription[planetCounter];
-        turnOffRotation();
+        rotateO = false;
         setPlanets();
         updateInfo(planet);
         positionCam(planet);
@@ -331,10 +331,6 @@ const toggleRotation = (e) => {
         rotateO = !rotateO;
         e.preventDefault();
     }
-};
-
-const turnOffRotation = () => {
-    rotateO = false;
 };
 
 const setSize = () => {
@@ -473,7 +469,7 @@ gloader.load("./models/iss/scene.gltf", (gltf) => {
 
 const eastereggObj = new THREE.Object3D();
 gloader.load("./models/easteregg/scene.gltf", (gltf) => {
-    gltf.scene.scale.set(0.02, 0.02, 0.02);
+    gltf.scene.scale.set(0.04, 0.04, 0.04);
     eastereggObj.add(gltf.scene);
     pluto.mesh.add(eastereggObj);
 });
@@ -488,34 +484,35 @@ function animate() {
     ////////////////////////////////////////////////
 
     ////////////////// planet rotation
-    sun.mesh.rotateY(itemsData.sun.day);
-    mercury.mesh.rotateY(itemsData.mercury.day);
-    venus.mesh.rotateY(itemsData.venus.day);
-    earth.mesh.rotateY(itemsData.earth.day);
-    mars.mesh.rotateY(itemsData.mars.day);
-    jupiter.mesh.rotateY(itemsData.jupiter.day);
-    saturn.mesh.rotateY(itemsData.saturn.day);
-    saturnRing.rotateZ(-itemsData.saturn.day / 2);
-    uranus.mesh.rotateY(itemsData.uranus.day);
-    neptun.mesh.rotateY(itemsData.neptun.day);
-    pluto.mesh.rotateY(itemsData.pluto.day);
+    sun.mesh.rotateY(1 / itemsData.sun.day);
+    mercury.mesh.rotateY(1 / itemsData.mercury.day);
+    venus.mesh.rotateY(1 / itemsData.venus.day);
+    earth.mesh.rotateY(0.1 / itemsData.earth.day);
+    mars.mesh.rotateY(0.1 / itemsData.mars.day);
+    jupiter.mesh.rotateY(0.1 / itemsData.jupiter.day);
+    saturn.mesh.rotateY(0.1 / itemsData.saturn.day);
+    saturnRing.rotateZ(0.1 / -itemsData.saturn.day);
+    uranus.mesh.rotateY(0.1 / itemsData.uranus.day);
+    neptun.mesh.rotateY(0.1 / itemsData.neptun.day);
+    pluto.mesh.rotateY(0.1 / itemsData.pluto.day);
 
     ////////////////// orbit rotation
     if (rotateO) {
-        mercury.obj.rotateY(itemsData.mercury.year);
-        venus.obj.rotateY(itemsData.venus.year);
-        earth.obj.rotateY(itemsData.earth.year);
-        mars.obj.rotateY(itemsData.mars.year);
-        jupiter.obj.rotateY(itemsData.jupiter.year);
-        saturn.obj.rotateY(itemsData.saturn.year);
-        uranus.obj.rotateY(itemsData.uranus.year);
-        neptun.obj.rotateY(itemsData.neptun.year);
-        pluto.obj.rotateY(itemsData.pluto.year);
+        mercury.obj.rotateY(1 / itemsData.mercury.year);
+        venus.obj.rotateY(1 / itemsData.venus.year);
+        earth.obj.rotateY(1 / itemsData.earth.year);
+        mars.obj.rotateY(1 / itemsData.mars.year);
+        jupiter.obj.rotateY(10 / itemsData.jupiter.year);
+        saturn.obj.rotateY(10 / itemsData.saturn.year);
+        uranus.obj.rotateY(10 / itemsData.uranus.year);
+        neptun.obj.rotateY(10 / itemsData.neptun.year);
+        pluto.obj.rotateY(10 / itemsData.pluto.year);
     }
-    moon.obj.rotateY(itemsData.moon.year);
+    moon.obj.rotateY(0.1 / -itemsData.earth.day);
     issObj.rotateY(0.005);
     issObj.rotateZ(0.002);
     eastereggObj.rotateY(0.01);
+    eastereggObj.rotateX(0.01);
 
     ///////////////////// movement
     moveCamera(forwardMovement, sideMovement);
