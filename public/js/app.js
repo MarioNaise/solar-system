@@ -8,24 +8,19 @@ const fetchData = async (url) => {
     const data = await resp.json();
     return data;
 };
-const planetData = await fetchData("/api/planets");
+const itemsData = await fetchData("/api/planets");
 
-const planetArr = [
-    planetData.sun,
-    planetData.mercury,
-    planetData.venus,
-    planetData.earth,
-    planetData.mars,
-    planetData.jupiter,
-    planetData.saturn,
-    planetData.uranus,
-    planetData.neptun,
-    planetData.pluto,
-];
+let itemsDescription = [];
+for (let key in itemsData) {
+    if (itemsData[key].hasOwnProperty("description")) {
+        itemsDescription.push(itemsData[key]);
+    }
+}
 
-///////////////////////
-//////  HTML  /////////
-///////////////////////
+/////////////////////////////
+//////  DOM ELEMENTS  ///////
+/////////////////////////////
+
 const startOverlay = document.getElementById("startOverlay");
 const buttonDiv = document.getElementById("buttons");
 const clickOverlay = document.getElementById("clickOverlay");
@@ -87,7 +82,7 @@ const positionCam = (planet) => {
     camera.rotation.y = -0.70686165;
     camera.rotation.z = -0.08780873;
 };
-positionCam(planetData.sun);
+positionCam(itemsData.sun);
 
 // see cam position and rotation
 // window.addEventListener("keydown", (e) => {
@@ -106,15 +101,15 @@ positionCam(planetData.sun);
 /////////////////////
 ///   CONTROLS   ////
 /////////////////////
-let controls;
 
+let controls;
 let forwardMovement = 0;
 let sideMovement = 0;
 let upwardsMovement = 0;
 let downwardsMovement = 0;
-const speed = 0.03;
-const boost = speed * 10;
 let pointerLockOn = false;
+const speed = 0.06;
+const boost = speed * 5;
 
 // // orbit
 // const setOrbitControls = () => {
@@ -122,8 +117,8 @@ let pointerLockOn = false;
 //     controls.update();
 //     orbitOn = true;
 //     pointerLockOn = false;
-//     controls.minDistance = planetData.sun.size * 2;
-//     controls.maxDistance = planetData.sun.size * 10;
+//     controls.minDistance = itemsData.sun.size * 2;
+//     controls.maxDistance = itemsData.sun.size * 10;
 // };
 
 // pointerlock
@@ -171,7 +166,7 @@ const stopMoving = (e) => {
         sideMovement = 0;
     }
     if (e.key == "Shift") {
-        forwardMovement = 0;
+        forwardMovement = speed;
         upwardsMovement = 0;
         downwardsMovement = 0;
     }
@@ -209,6 +204,7 @@ const updateInfo = (planet) => {
                             <p>Diamter:<br> ${planet.description.diameter}</p>
                             <p>Volume:<br> ${planet.description.volume}</p>
                             <p>Mass:<br> ${planet.description.mass}</p>`;
+    planetInfo.scrollTop = 0;
 };
 
 // start with enter and switch planets afterwards
@@ -218,22 +214,22 @@ const previousPlanet = () => {
     if (planetCounter > 0) {
         planetCounter--;
     } else if (planetCounter == 0) {
-        planetCounter = planetArr.length - 1;
+        planetCounter = itemsDescription.length - 1;
     }
     // new planet
-    let planet = planetArr[planetCounter];
+    let planet = itemsDescription[planetCounter];
     updateInfo(planet);
     positionCam(planet);
 };
 
 const nextPlanet = () => {
-    if (planetCounter < planetArr.length - 1) {
+    if (planetCounter < itemsDescription.length - 1) {
         planetCounter++;
-    } else if (planetCounter == planetArr.length - 1) {
+    } else if (planetCounter == itemsDescription.length - 1) {
         planetCounter = 0;
     }
     // new planet
-    let planet = planetArr[planetCounter];
+    let planet = itemsDescription[planetCounter];
     if (planet.name == "Sun") {
         pressEnter.classList.remove("hidden");
     }
@@ -254,7 +250,7 @@ const startJourney = () => {
     startOverlay.classList.add("hidden");
     buttonDiv.classList.remove("hidden");
     planetInfo.classList.remove("hidden");
-    updateInfo(planetData.sun);
+    updateInfo(itemsData.sun);
     document.addEventListener("keydown", switchPlanet);
     previousButton.addEventListener("click", previousPlanet);
     nextButton.addEventListener("click", nextPlanet);
@@ -289,7 +285,7 @@ const switchMode = (e) => {
         buttonDiv.classList.remove("hidden");
         document.addEventListener("keydown", switchPlanet);
         document.removeEventListener("keydown", toggleRotation);
-        let planet = planetArr[planetCounter];
+        let planet = itemsDescription[planetCounter];
         turnOffRotation();
         setPlanets();
         updateInfo(planet);
@@ -329,25 +325,25 @@ instructions.addEventListener("click", (e) => {
     e.stopPropagation();
 });
 
+let rotateO = false;
 const toggleRotation = (e) => {
     if (e.key == " ") {
-        for (let i in planetArr) {
-            planetArr[i].rotateO = !planetArr[i].rotateO;
-        }
+        rotateO = !rotateO;
         e.preventDefault();
     }
 };
 
 const turnOffRotation = () => {
-    for (let i in planetArr) {
-        planetArr[i].rotateO = false;
-    }
+    rotateO = false;
 };
-// const turnOnRotation = () => {
-//     for (let i in planetArr) {
-//         planetArr[i].rotateO = true;
-//     }
-// };
+
+const setSize = () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+};
+
+window.addEventListener("resize", setSize);
 
 //////////////////////
 ////   PLANETS    ////
@@ -392,17 +388,17 @@ function createPlanet(element) {
 }
 
 // sun & planets
-const sun = createPlanet(planetData.sun);
-const mercury = createPlanet(planetData.mercury);
-const venus = createPlanet(planetData.venus);
-const earth = createPlanet(planetData.earth);
-const moon = createPlanet(planetData.moon);
-const mars = createPlanet(planetData.mars);
-const jupiter = createPlanet(planetData.jupiter);
-const saturn = createPlanet(planetData.saturn);
-const uranus = createPlanet(planetData.uranus);
-const neptun = createPlanet(planetData.neptun);
-const pluto = createPlanet(planetData.pluto);
+const sun = createPlanet(itemsData.sun);
+const mercury = createPlanet(itemsData.mercury);
+const venus = createPlanet(itemsData.venus);
+const earth = createPlanet(itemsData.earth);
+const moon = createPlanet(itemsData.moon);
+const mars = createPlanet(itemsData.mars);
+const jupiter = createPlanet(itemsData.jupiter);
+const saturn = createPlanet(itemsData.saturn);
+const uranus = createPlanet(itemsData.uranus);
+const neptun = createPlanet(itemsData.neptun);
+const pluto = createPlanet(itemsData.pluto);
 
 // moon
 earth.mesh.add(moon.obj);
@@ -420,9 +416,9 @@ const ringMaterial = new THREE.MeshBasicMaterial({
 });
 const saturnRing = new THREE.Mesh(ringGeometry, ringMaterial);
 
-saturnRing.position.x = planetData.saturn.positionX;
-saturnRing.position.y = planetData.saturn.positionY;
-saturnRing.position.z = planetData.saturn.positionZ;
+saturnRing.position.x = itemsData.saturn.positionX;
+saturnRing.position.y = itemsData.saturn.positionY;
+saturnRing.position.z = itemsData.saturn.positionZ;
 saturnRing.rotation.x = Math.PI / 2 + 0.01;
 sun.mesh.add(saturnRing);
 saturn.obj.add(saturnRing);
@@ -470,14 +466,14 @@ const issObj = new THREE.Object3D();
 gloader.load("./models/iss/scene.gltf", (gltf) => {
     gltf.scene.scale.set(0.01, 0.01, 0.01);
     issObj.add(gltf.scene);
-    gltf.scene.position.x = planetData.earth.size + 0.02;
+    gltf.scene.position.x = itemsData.earth.size + 0.1;
     gltf.scene.rotation.z = 1.7;
     earth.mesh.add(issObj);
 });
 
 const eastereggObj = new THREE.Object3D();
 gloader.load("./models/easteregg/scene.gltf", (gltf) => {
-    gltf.scene.scale.set(0.05, 0.05, 0.05);
+    gltf.scene.scale.set(0.02, 0.02, 0.02);
     eastereggObj.add(gltf.scene);
     pluto.mesh.add(eastereggObj);
 });
@@ -492,52 +488,33 @@ function animate() {
     ////////////////////////////////////////////////
 
     ////////////////// planet rotation
-    sun.mesh.rotateY((planetData.sun.rotateP && planetData.sun.day) || 0);
-    mercury.mesh.rotateY(
-        (planetData.mercury.rotateP && planetData.mercury.day) || 0
-    );
-    venus.mesh.rotateY((planetData.venus.rotateP && planetData.venus.day) || 0);
-    earth.mesh.rotateY((planetData.earth.rotateP && planetData.earth.day) || 0);
-    mars.mesh.rotateY((planetData.mars.rotateP && planetData.mars.day) || 0);
-    jupiter.mesh.rotateY(
-        (planetData.jupiter.rotateP && planetData.jupiter.day) || 0
-    );
-    saturn.mesh.rotateY(
-        (planetData.saturn.rotateP && planetData.saturn.day) || 0
-    );
-    saturnRing.rotateZ(-planetData.saturn.day / 2);
-    uranus.mesh.rotateY(
-        (planetData.uranus.rotateP && planetData.uranus.day) || 0
-    );
-    neptun.mesh.rotateY(
-        (planetData.neptun.rotateP && planetData.neptun.day) || 0
-    );
-    pluto.mesh.rotateY((planetData.pluto.rotateP && planetData.pluto.day) || 0);
+    sun.mesh.rotateY(itemsData.sun.day);
+    mercury.mesh.rotateY(itemsData.mercury.day);
+    venus.mesh.rotateY(itemsData.venus.day);
+    earth.mesh.rotateY(itemsData.earth.day);
+    mars.mesh.rotateY(itemsData.mars.day);
+    jupiter.mesh.rotateY(itemsData.jupiter.day);
+    saturn.mesh.rotateY(itemsData.saturn.day);
+    saturnRing.rotateZ(-itemsData.saturn.day / 2);
+    uranus.mesh.rotateY(itemsData.uranus.day);
+    neptun.mesh.rotateY(itemsData.neptun.day);
+    pluto.mesh.rotateY(itemsData.pluto.day);
 
     ////////////////// orbit rotation
-    mercury.obj.rotateY(
-        (planetData.mercury.rotateO && planetData.mercury.year) || 0
-    );
-    venus.obj.rotateY((planetData.venus.rotateO && planetData.venus.year) || 0);
-    earth.obj.rotateY((planetData.earth.rotateO && planetData.earth.year) || 0);
-    moon.obj.rotateY((planetData.moon.rotateO && planetData.moon.year) || 0);
-    issObj.rotateY(0.04);
-    issObj.rotateZ(0.005);
-    mars.obj.rotateY((planetData.mars.rotateO && planetData.mars.year) || 0);
-    jupiter.obj.rotateY(
-        (planetData.jupiter.rotateO && planetData.jupiter.year) || 0
-    );
-    saturn.obj.rotateY(
-        (planetData.saturn.rotateO && planetData.saturn.year) || 0
-    );
-
-    uranus.obj.rotateY(
-        (planetData.uranus.rotateO && planetData.uranus.year) || 0
-    );
-    neptun.obj.rotateY(
-        (planetData.neptun.rotateO && planetData.neptun.year) || 0
-    );
-    pluto.obj.rotateY((planetData.pluto.rotateO && planetData.pluto.year) || 0);
+    if (rotateO) {
+        mercury.obj.rotateY(itemsData.mercury.year);
+        venus.obj.rotateY(itemsData.venus.year);
+        earth.obj.rotateY(itemsData.earth.year);
+        mars.obj.rotateY(itemsData.mars.year);
+        jupiter.obj.rotateY(itemsData.jupiter.year);
+        saturn.obj.rotateY(itemsData.saturn.year);
+        uranus.obj.rotateY(itemsData.uranus.year);
+        neptun.obj.rotateY(itemsData.neptun.year);
+        pluto.obj.rotateY(itemsData.pluto.year);
+    }
+    moon.obj.rotateY(itemsData.moon.year);
+    issObj.rotateY(0.005);
+    issObj.rotateZ(0.002);
     eastereggObj.rotateY(0.01);
 
     ///////////////////// movement

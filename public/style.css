@@ -7,6 +7,7 @@
     font-family: var(--fontFam);
     color: var(--fontColor);
     user-select: none;
+    margin: 0;
 }
 
 body {
@@ -95,6 +96,10 @@ body {
     font-size: small;
 }
 
+#instructions * {
+    margin: 0.5rem;
+}
+
 button {
     text-align: center;
     padding: 0.5rem;
@@ -123,7 +128,6 @@ button:focus {
 
 #switchModeButton {
     font-size: small;
-    margin: 0;
 }
 #buttons {
     background-color: transparent;
