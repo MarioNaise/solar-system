@@ -484,7 +484,7 @@ function animate() {
     ////////////////////////////////////////////////
 
     ////////////////// planet rotation
-    sun.mesh.rotateY(1 / itemsData.sun.day);
+    sun.mesh.rotateY(0.1 / itemsData.sun.day);
     mercury.mesh.rotateY(1 / itemsData.mercury.day);
     venus.mesh.rotateY(1 / itemsData.venus.day);
     earth.mesh.rotateY(0.1 / itemsData.earth.day);
