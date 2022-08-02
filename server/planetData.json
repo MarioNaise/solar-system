@@ -40,7 +40,7 @@
     },
     "venus": {
         "name": "Venus",
-        "size": 0.7,
+        "size": 1.2,
         "day": -5832,
         "year": 225,
         "positionX": 20,
