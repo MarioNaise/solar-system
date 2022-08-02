@@ -508,7 +508,7 @@ function animate() {
         neptun.obj.rotateY(10 / itemsData.neptun.year);
         pluto.obj.rotateY(10 / itemsData.pluto.year);
     }
-    moon.obj.rotateY(0.1 / -itemsData.earth.day);
+    moon.obj.rotateY(0.1 / -itemsData.earth.day + 0.01 / itemsData.moon.year);
     issObj.rotateY(0.005);
     issObj.rotateZ(0.002);
     eastereggObj.rotateY(0.01);

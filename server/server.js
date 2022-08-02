@@ -8,15 +8,6 @@ app.use((req, res, next) => {
     next();
 });
 
-if (process.env.NODE_ENV == "production") {
-    app.use((req, res, next) => {
-        if (req.headers["x-forwarded-proto"].startsWith("https")) {
-            return next();
-        }
-        res.redirect(`https://${req.hostname}${req.url}`);
-    });
-}
-
 const planetData = require("./planetData.json");
 app.get("/api/planets", (req, res) => {
     res.json(planetData);
