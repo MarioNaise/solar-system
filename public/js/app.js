@@ -230,9 +230,6 @@ const nextPlanet = () => {
     }
     // new planet
     let planet = itemsDescription[planetCounter];
-    if (planet.name == "Sun") {
-        pressEnter.classList.remove("hidden");
-    }
     updateInfo(planet);
     positionCam(planet);
 };
